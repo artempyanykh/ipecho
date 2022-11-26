@@ -1,0 +1,4 @@
+(library
+ (name ipecho)
+ (public_name ipecho)
+ (libraries))

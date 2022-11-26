@@ -1,0 +1,4 @@
+(tests
+ (names ipecho_test)
+ (package ipecho)
+ (libraries alcotest ipecho))

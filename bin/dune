@@ -1,0 +1,6 @@
+(executable
+ (name main)
+ (public_name ipecho)
+ (libraries ipecho cmdliner fmt fmt.tty logs.fmt logs.cli))
+
+(include_subdirs unqualified)
