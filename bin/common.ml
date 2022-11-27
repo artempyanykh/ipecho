@@ -2,20 +2,17 @@ open Cmdliner
 
 module Syntax = struct
   let ( let+ ) t f = Term.(const f $ t)
-
-  let ( and+ ) a b = Term.(const (fun x y -> x, y) $ a $ b)
+  let ( and+ ) a b = Term.(const (fun x y -> (x, y)) $ a $ b)
 end
 
 open Syntax
 
 let envs =
-  [ Cmd.Env.info
-      "IPECHO_CACHE_DIR"
-      ~doc:
-        "The directory where the application data is stored."
-  ; Cmd.Env.info
-      "IPECHO_CONFIG_DIR"
-      ~doc:"The directory where the configuration files are stored."
+  [
+    Cmd.Env.info "IPECHO_CACHE_DIR"
+      ~doc:"The directory where the application data is stored.";
+    Cmd.Env.info "IPECHO_CONFIG_DIR"
+      ~doc:"The directory where the configuration files are stored.";
   ]
 
 let term =
@@ -31,11 +28,10 @@ let term =
 let error_to_code = function `Missing_env_var _ -> 4
 
 let handle_errors = function
-  | Ok () ->
-    if Logs.err_count () > 0 then 3 else 0
+  | Ok () -> if Logs.err_count () > 0 then 3 else 0
   | Error err ->
-    Logs.err (fun m -> m "%s" (Ipecho.Error.to_string err));
-    error_to_code err
+      Logs.err (fun m -> m "%s" (Ipecho.Error.to_string err));
+      error_to_code err
 
 let exits =
   Cmd.Exit.info 3 ~doc:"on indiscriminate errors reported on stderr."

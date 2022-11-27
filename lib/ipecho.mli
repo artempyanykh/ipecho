@@ -8,4 +8,6 @@ val greet : string -> string
 
     {4 Examples}
 
-    {[ print_endline @@ greet "Jane" ]} *)
+    {[
+      print_endline @@ greet "Jane"
+    ]} *)

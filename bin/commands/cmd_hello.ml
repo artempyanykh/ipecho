@@ -8,16 +8,14 @@ let run ~name =
 open Cmdliner
 
 let doc = "Print \"Hello World!\""
-
 let sdocs = Manpage.s_common_options
-
 let exits = Common.exits
-
 let envs = Common.envs
 
 let man =
-  [ `S Manpage.s_description
-  ; `P "$(tname) prints a hello world message on the standard output."
+  [
+    `S Manpage.s_description;
+    `P "$(tname) prints a hello world message on the standard output.";
   ]
 
 let info = Cmd.info "hello" ~doc ~sdocs ~exits ~envs ~man
@@ -32,4 +30,4 @@ let term =
   in
   run ~name |> Common.handle_errors
 
-let cmd = term, info
+let cmd = (term, info)
