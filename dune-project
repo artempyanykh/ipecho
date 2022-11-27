@@ -26,5 +26,6 @@
   cmdliner
   fmt
   httpaf
+  httpaf-lwt-unix
   logs
   lwt))

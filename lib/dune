@@ -1,4 +1,4 @@
 (library
  (name ipecho)
  (public_name ipecho)
- (libraries))
+ (libraries lwt lwt.unix httpaf httpaf-lwt-unix logs))
