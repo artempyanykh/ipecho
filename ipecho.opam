@@ -13,8 +13,10 @@ depends: [
   "alcotest" {with-test}
   "odoc" {with-doc}
   "cmdliner"
-  "logs"
   "fmt"
+  "httpaf"
+  "logs"
+  "lwt"
 ]
 build: [
   ["dune" "subst"] {pinned}

@@ -1,5 +1,9 @@
 open Cmdliner
 
+let run ~port =
+  Ipecho.run ~port;
+  Ok ()
+
 (* Command line interface *)
 
 let doc = "Server that echoes IP addresses of clients"
@@ -21,19 +25,17 @@ let man =
     `S Manpage.s_authors;
   ]
 
-let default_cmd =
-  let term =
-    let open Common.Syntax in
-    Term.ret
-    @@ let+ _ = Common.term in
-       `Help (`Pager, None)
+let term =
+  let open Common.Syntax in
+  let+ _ = Common.term
+  and+ port =
+    let doc = "The port to run the server on." in
+    let docv = "PORT" in
+    Arg.(required & pos 0 (some int) None & info [] ~doc ~docv)
   in
-  let info =
-    Cmd.info "ipecho" ~version:"%%VERSION%%" ~doc ~sdocs ~exits ~man ~envs
-  in
-  (term, info)
+  run ~port |> Common.handle_errors
 
-let () =
-  let term, info = default_cmd in
-  let cmd = Cmd.v info term in
-  Cmd.eval' cmd |> Stdlib.exit
+let info =
+  Cmd.info "ipecho" ~version:"%%VERSION%%" ~doc ~sdocs ~exits ~man ~envs
+
+let () = Cmd.eval' (Cmd.v info term) |> Stdlib.exit
