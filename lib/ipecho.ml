@@ -8,16 +8,20 @@ let ipecho sockaddr reqd =
     | Unix.ADDR_INET (addr, _) -> Unix.string_of_inet_addr addr
     | Unix.ADDR_UNIX _ -> "<unknown>"
   in
-  let headers =
-    Headers.of_list [ ("content-type", "text/plain"); ("connection", "close") ]
+  let status, body =
+    match Reqd.request reqd with
+    | Request.{ meth = `GET; target = "/"; _ } -> (`OK, addr)
+    | _ -> (`Method_not_allowed, "Unsupported operation")
   in
-  match Reqd.request reqd with
-  | Request.{ meth = `GET; target = "/"; _ } ->
-      Reqd.respond_with_string reqd (Response.create ~headers `OK) addr
-  | _ ->
-      Reqd.respond_with_string reqd
-        (Response.create ~headers `Method_not_allowed)
-        "Unsupported operation"
+  let headers =
+    Headers.of_list
+      [
+        ("content-length", String.length body |> Int.to_string);
+        ("content-type", "text/plain");
+        ("connection", "close");
+      ]
+  in
+  Reqd.respond_with_string reqd (Response.create ~headers status) body
 
 let request_handler sockaddr = ipecho sockaddr
 
