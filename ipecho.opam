@@ -8,7 +8,7 @@ license: "ISC"
 homepage: "https://github.com/artempyanykh/ipecho"
 bug-reports: "https://github.com/artempyanykh/ipecho/issues"
 depends: [
-  "ocaml" {>= "4.08.0"}
+  "ocaml" {>= "5.0.0"}
   "dune"
   "alcotest" {with-test}
   "odoc" {with-doc}

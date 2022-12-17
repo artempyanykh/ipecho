@@ -19,7 +19,7 @@
  (description "Server that echoes IP addresses of clients")
  (depends
   (ocaml
-   (>= 4.08.0))
+   (>= 5.0.0))
   dune
   (alcotest :with-test)
   (odoc :with-doc)
